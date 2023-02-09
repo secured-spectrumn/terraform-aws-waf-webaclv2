@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
+- fix: typo
+- feat: action block cpatcha and chanllenge rules.
+- Fix: Match Pattern Headers ([#82](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/82))
+
+
+<a name="4.0.1"></a>
+## [4.0.1] - 2023-01-26
+
+- Deprecate 'excluded_rule' and set minimum provider version to 4.44.0 ([#79](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/79))
 
 
 <a name="4.0.0"></a>
@@ -225,7 +234,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.0.0...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.0.1...HEAD
+[4.0.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.8.1...4.0.0
 [3.8.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.8.0...3.8.1
 [3.8.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.3...3.8.0
