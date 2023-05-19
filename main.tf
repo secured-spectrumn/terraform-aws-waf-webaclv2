@@ -2530,7 +2530,7 @@ resource "aws_wafv2_web_acl" "main" {
             }
 
             dynamic "scope_down_statement" {
-              for_each = length(lookup(rate_based_statement.value, "scope_down_statement", {})) == 0 ? [] : [lookup(rate_based_statement.value, "scope_down_statement", {})]
+              for_each = contains(keys(rate_based_statement.value), "scope_down_statement") && rate_based_statement.value["scope_down_statement"] != null ? [lookup(rate_based_statement.value, "scope_down_statement", {})] : []
               content {
                 # scope down byte_match_statement
                 dynamic "byte_match_statement" {
@@ -2790,6 +2790,22 @@ resource "aws_wafv2_web_acl" "main" {
                     text_transformation {
                       priority = lookup(regex_pattern_set_reference_statement.value, "priority")
                       type     = lookup(regex_pattern_set_reference_statement.value, "type")
+                    }
+                  }
+                }
+
+                # scope down ip_set_reference_statement
+                dynamic "ip_set_reference_statement" {
+                  for_each = contains(keys(scope_down_statement.value), "ip_set_reference_statement") && scope_down_statement.value["ip_set_reference_statement"] != null ? [lookup(scope_down_statement.value, "ip_set_reference_statement", {})] : []
+                  content {
+                    arn = lookup(ip_set_reference_statement.value, "arn")
+                    dynamic "ip_set_forwarded_ip_config" {
+                      for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
+                      content {
+                        fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
+                        header_name       = lookup(forwarded_ip_config.value, "header_name")
+                        position          = lookup(forwarded_ip_config.value, "position")
+                      }
                     }
                   }
                 }
@@ -6108,8 +6124,8 @@ resource "aws_wafv2_web_acl" "main" {
                     positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
                     search_string         = lookup(byte_match_statement.value, "search_string")
                     text_transformation {
-                      priority = lookup(byte_match_statement.value, "priority")
-                      type     = lookup(byte_match_statement.value, "type")
+                      priority = lookup(byte_match_statement.value["text_transformation"], "priority")
+                      type     = lookup(byte_match_statement.value["text_transformation"], "type")
                     }
                   }
                 }
